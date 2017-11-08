@@ -7,7 +7,7 @@ This project uses code from [lit-html][lit-html] and [Angular][angular]
 The set-up of this project was shamelessly copied from [lit-html][lit-html].
 
 The code from [lit-html][lit-html] that this project uses is licensed under a
-[BSD license][https://github.com/PolymerLabs/lit-html/blob/master/LICENSE] +
+[BSD license](https://github.com/PolymerLabs/lit-html/blob/master/LICENSE) +
 [Patents clause](http://polymer.github.io/PATENTS.txt).
 
 ```
