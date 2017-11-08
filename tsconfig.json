@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "target": "es2017",
+    "module": "es2015",
+    "lib": ["es2017", "dom"],
+    "declaration": true,
+    "sourceMap": true,
+    "inlineSources": true,
+    "outDir": ".",
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "rootDirs": [
+      // This allows us to import ../lit-html/lib-html.js at development time as well as at runtime
+      "./node_modules",
+      "."
+    ]
+  },
+  "include": [
+    "src/**/*.ts"
+  ],
+  "exclude": []
+}

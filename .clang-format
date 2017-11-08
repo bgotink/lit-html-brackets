@@ -1,0 +1,19 @@
+Language: JavaScript
+BasedOnStyle: Google
+
+ColumnLimit: 120
+
+AlignAfterOpenBracket: AlwaysBreak
+
+AllowAllParametersOfDeclarationOnNextLine: false
+
+AllowShortBlocksOnASingleLine: false
+AllowShortCaseLabelsOnASingleLine: false
+AllowShortFunctionsOnASingleLine: None
+AllowShortIfStatementsOnASingleLine: false
+AllowShortLoopsOnASingleLine: false
+
+BinPackArguments: false
+BinPackParameters: false
+
+JavaScriptWrapImports: true

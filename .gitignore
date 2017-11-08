@@ -1,0 +1,11 @@
+/node_modules
+
+/lit-html-brackets.d.ts
+/lit-html-brackets.js
+/lit-html-brackets.js.map
+
+/lib
+
+/test/**/*.d.ts
+/test/**/*.js
+/test/**/*.js.map

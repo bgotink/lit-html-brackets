@@ -1,0 +1,38 @@
+{
+  "name": "lit-html-brackets",
+  "version": "0.1.0",
+  "description": "HTML Template literals with a bracket syntax similar to Angular",
+  "main": "lit-html-brackets.js",
+  "module": "lit-html-brackets.js",
+  "author": "Bram Gotink <bram@gotink.me>",
+  "license": "MIT",
+  "scripts": {
+    "build:old": "tsc && rollup out-tsc/lit-html-brackets.js --output.file lit-html-brackets.js --output.format es --sourcemap --external $(pwd)/lit-html/lit-html.js",
+    "build": "tsc",
+    "gen-docs": "typedoc --readme none --mode modules --excludeNotExported --excludePrivate --exclude **/*_test.ts --out ./docs/api .",
+    "test": "npm run build && wct --npm && npm run lint",
+    "quicktest": "wct -l chrome -p --npm",
+    "checksize": "uglifyjs lit-html-brackets.js -mc --toplevel | gzip -9 | wc -c",
+    "format": "find src test | grep '\\.js$\\|\\.ts$' | xargs clang-format --style=file -i",
+    "lint": "tslint --project ./"
+  },
+  "peerDependencies": {
+    "lit-html": "0.7.1"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.0.4",
+    "@types/mocha": "^2.2.44",
+    "@webcomponents/template": "^1.2.0",
+    "chai": "^4.1.2",
+    "clang-format": "^1.1.0",
+    "get-own-property-symbols": "^0.9.2",
+    "lit-html": "PolymerLabs/lit-html#748ab20881b1c3279ceb2d6b8f1d3ebc8be708d3",
+    "mocha": "^3.4.2",
+    "rollup": "^0.50.0",
+    "tslint": "^5.8.0",
+    "typescript": "^2.6.1",
+    "uglify-es": "^3.1.6",
+    "wct-browser-legacy": "0.0.1-pre.10",
+    "web-component-tester": "^6.4.0"
+  }
+}
