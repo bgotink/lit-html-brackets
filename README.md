@@ -40,11 +40,11 @@ const template = ({ isAuthenticated, login, logout }) => html`
 
   ```js
   /* The following template behaves differently depending on the render function used:
-    * - The default `render` exposed by lit-html and the `render` function exposed by lit-html-brackets
-    *   will set attributes `a` to `"foo"` and `b` to `"bar"`.
-    * - The `render` function exposed by lit-html's extension sets the `a` attribute to `"foo"` but it
-    *   sets the `b` property to `"bar"`.
-    */
+   * - The default `render` exposed by lit-html and the `render` function exposed by lit-html-brackets
+   *   will set attributes `a` to `"foo"` and `b` to `"bar"`.
+   * - The `render` function exposed by lit-html's extension sets the `a` attribute to `"foo"` but it
+   *   sets the `b` property to `"bar"`.
+   */
   const template = html`<div a="foo" b=${'bar'}></div>`;
   ```
 
