@@ -3,6 +3,9 @@
 Extension to [lit-html](https://github.com/PolymerLabs/lit-html) that supports a syntax using brackets, similar to
 Angular's templates.
 
+__Note__: This library currently requires a build of lit-html that hasn't been published yet. You'll need to manually
+build the lit-html master branch and `npm link` it to this repository for the tests to succeed.
+
 ## Overview
 
 ```js
