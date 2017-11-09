@@ -1,6 +1,7 @@
 import {AttributePart, getValue, Part, TemplateInstance} from '../../lit-html/lit-html.js';
 
-export function createPropertyPart(instance: TemplateInstance, element: Element, property: string, strings: string[]): Part {
+export function createPropertyPart(
+    instance: TemplateInstance, element: Element, property: string, strings: string[]): Part {
   if (property.startsWith('class.')) {
     return new ClassPropertyPart(instance, element, property.substr(6), strings);
   } else if (property.startsWith('style.')) {

@@ -1,6 +1,7 @@
 import {getValue, Part, TemplateInstance} from '../../lit-html/lit-html.js';
 
-export function createEventPart(instance: TemplateInstance, element: Element, eventName: string, strings: string[]): Part {
+export function createEventPart(
+    instance: TemplateInstance, element: Element, eventName: string, strings: string[]): Part {
   // Events can be registered like this:
   //   (click)=${listener}
   // or
@@ -59,7 +60,7 @@ export class EventPart<E extends Event> implements Part {
 }
 
 /*
- * Keyboard event to string mapping, courtesy of @angular/platform-browser
+ * Keyboard event to string mapping, based on @angular/platform-browser
  */
 
 const DOM_KEY_LOCATION_NUMPAD = 3;
@@ -122,9 +123,7 @@ function normalizeKey(keyName: string): string {
   }
 }
 
-function getFullEventKey(event: KeyboardEvent): string {
-  const parts = MODIFIER_KEYS.filter(part => MODIFIER_KEY_GETTERS[part](event));
-
+function getEventKey(event: KeyboardEvent): string {
   let key = event.key;
   if (key == null) {
     key = (event as any).keyIdentifier;
@@ -153,37 +152,56 @@ function getFullEventKey(event: KeyboardEvent): string {
     key = 'dot';  // because '.' is used as a separator in event names
   }
 
-  parts.push(key);
-  return parts.join('.');
+  return key;
 }
 
 export class FilteredKeyboardEventPart extends EventPart<KeyboardEvent> {
-  private readonly _fullEventKey: string;
+  private readonly _eventKey: string;
+
+  private readonly _modifiers: string[];
+  private readonly _negativeModifiers: string[];
 
   constructor(instance: TemplateInstance, element: Element, eventName: string, filter: string[]) {
     super(instance, element, eventName);
 
-    const key = normalizeKey(filter.pop()!);
+    this._eventKey = normalizeKey(filter.pop()!);
+    this._modifiers = [];
+    this._negativeModifiers = [];
 
-    let fullKey = '';
     MODIFIER_KEYS.forEach(modifierName => {
-      const index = filter.indexOf(modifierName);
+      let index = filter.indexOf(modifierName);
       if (index > -1) {
         filter.splice(index, 1);
-        fullKey += modifierName + '.';
+        this._modifiers.push(modifierName);
+      }
+
+      index = filter.indexOf(`no${modifierName}`);
+      if (index > -1) {
+        filter.splice(index, 1);
+        this._negativeModifiers.push(modifierName);
       }
     });
 
-    fullKey += key;
-
-    this._fullEventKey = fullKey;
+    if (filter.length) {
+      throw new Error(`Unknown modifiers: ${filter.join('.')}`);
+    }
   }
 
   public handleEvent(event: KeyboardEvent): void {
-    // TODO: introduce noshift/noalt/... modifiers and make keyup.enter also match in case of shift+enter
-    // This differs from Angular's event handling, but it makes a lot more sense.
-    if (getFullEventKey(event) !== this._fullEventKey) {
+    if (getEventKey(event) !== this._eventKey) {
       return;
+    }
+
+    for (const modifier of this._modifiers) {
+      if (!MODIFIER_KEY_GETTERS[modifier](event)) {
+        return;
+      }
+    }
+
+    for (const modifier of this._negativeModifiers) {
+      if (MODIFIER_KEY_GETTERS[modifier](event)) {
+        return;
+      }
     }
 
     super.handleEvent(event);

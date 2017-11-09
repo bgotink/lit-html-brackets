@@ -28,7 +28,7 @@ export function bracketsPartCallback(instance: TemplateInstance, templatePart: T
   if (rawName.startsWith('[') && rawName.endsWith(']')) {
     return createPropertyPart(instance, node as Element, rawName.substr(1, rawName.length - 2), templatePart.strings!);
   } else if (rawName.startsWith('(') && rawName.endsWith(')')) {
-    return createEventPart(instance, node as Element, rawName.substr(1, rawName.length - 2), templatePart.strings);
+    return createEventPart(instance, node as Element, rawName.substr(1, rawName.length - 2), templatePart.strings!);
   } else {
     return defaultPartCallback(instance, templatePart, node);
   }

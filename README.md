@@ -23,8 +23,8 @@ const template = ({ isAuthenticated, login, logout }) => html`
   - Use `[class.foo]` to show/hide the class `foo` depending on the truthiness of the value
   - Use `[style.foo]` to bind the value to to the `foo` style property
 - Use `()` in attributes for event binding
-  - Listeners for `keyup`/`keydown` support binding to a single key or a key with modifiers, with exactly the same
-    semantics as Angular 4.
+  - Listeners for `keyup`/`keydown` support binding to a single key or a key with modifiers, with slightly different
+    semantics from Angular.
 - All other bindings are left as is, i.e. node bindings are not changed and attributes that don't use `[]` or `()` are
   simply set as attributes.
 - The `[]` and `()` syntax only works in attributes with a `${}` value due to how `lit-html` internally works.
@@ -63,3 +63,8 @@ const template = ({ isAuthenticated, login, logout }) => html`
   <!-- angular syntax -->
   <div (click)="onClick($event)"></div>
   ```
+- Event listeners can be registered with negative modifiers `noshift`, `noalt`, `nocontrol` and `nometa`. These will
+  only fire the listener if the modifier is absent.
+- Event listeners are fired even if unqualified modifiers are present. Let's take the example of a listener registered
+  to `keyup.enter`. In Angular 5 that listener wouldn't fire for `shift+enter` key-ups. In lit-html-brackets that
+  listener will fire. Use `keyup.noshift.enter` to get a listener that doesn't fire when shift is pressed.

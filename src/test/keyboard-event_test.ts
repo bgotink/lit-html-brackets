@@ -67,13 +67,11 @@ suite('lit-html-brackets', () => {
       });
 
       test('respects modifiers', () => {
-        let id: string = null!;
-        let capturedEvent: KeyboardEvent = null!;
+        let capturedEvents: {[s: string]: KeyboardEvent} = {};
 
-        function createListener(_id: string) {
+        function createListener(id: string) {
           return (e: KeyboardEvent) => {
-            capturedEvent = e;
-            id = _id;
+            capturedEvents[id] = e;
           };
         }
 
@@ -81,22 +79,59 @@ suite('lit-html-brackets', () => {
             html
             `<div (keyup.enter)=${createListener('enter')} (keyup.shift.enter)=${createListener('shift.enter')}></div>`,
             container);
-        const div = container.firstChild as HTMLElement;
+            const div = container.firstChild as HTMLElement;
 
-        let event = createEvent('keyup', {key: 'enter'});
-        div.dispatchEvent(event);
+            let event = createEvent('keyup', {key: 'enter'});
+            div.dispatchEvent(event);
 
-        assert.equal(id, 'enter');
-        assert.equal(capturedEvent, event);
+            assert.property(capturedEvents, 'enter');
+            assert.propertyVal(capturedEvents, 'enter', event);
+            assert.notProperty(capturedEvents, 'shift.enter');
 
-        id = null!;
-        capturedEvent = null!;
+            capturedEvents = {};
 
-        event = createEvent('keyup', {key: 'enter', shiftKey: true});
-        div.dispatchEvent(event);
+            event = createEvent('keyup', {key: 'enter', shiftKey: true});
+            div.dispatchEvent(event);
 
-        assert.equal(id, 'shift.enter');
-        assert.equal(capturedEvent, event);
+            assert.property(capturedEvents, 'enter');
+            assert.propertyVal(capturedEvents, 'enter', event);
+            assert.property(capturedEvents, 'shift.enter');
+            assert.propertyVal(capturedEvents, 'shift.enter', event);
+      });
+
+      test('respects unwanted modifiers', () => {
+        let capturedEvents: {[s: string]: KeyboardEvent} = {};
+
+        function createListener(id: string) {
+          return (e: KeyboardEvent) => {
+            capturedEvents[id] = e;
+          };
+        }
+
+        render(
+          html
+          `<div (keyup.enter)=${createListener('enter')} (keyup.noshift.enter)=${createListener('noshift.enter')}></div>`,
+          container);
+          const div = container.firstChild as HTMLElement;
+
+          capturedEvents = {};
+
+          let event = createEvent('keyup', {key: 'enter', shiftKey: true});
+          div.dispatchEvent(event);
+
+          assert.property(capturedEvents, 'enter');
+          assert.propertyVal(capturedEvents, 'enter', event);
+          assert.notProperty(capturedEvents, 'noshift.enter');
+
+          capturedEvents = {};
+
+          event = createEvent('keyup', {key: 'enter'});
+          div.dispatchEvent(event);
+
+          assert.property(capturedEvents, 'enter');
+          assert.propertyVal(capturedEvents, 'enter', event);
+          assert.property(capturedEvents, 'noshift.enter');
+          assert.propertyVal(capturedEvents, 'noshift.enter', event);
       });
 
       test('adds event listener objects, calls with right this value', () => {
@@ -198,36 +233,71 @@ suite('lit-html-brackets', () => {
       });
 
       test('respects modifiers', () => {
-        let id: string = null!;
-        let capturedEvent: KeyboardEvent = null!;
+        let capturedEvents: {[s: string]: KeyboardEvent} = {};
 
-        function createListener(_id: string) {
+        function createListener(id: string) {
           return (e: KeyboardEvent) => {
-            capturedEvent = e;
-            id = _id;
+            capturedEvents[id] = e;
           };
         }
 
         render(
-            html`<div (keydown.enter)=${createListener('enter')} (keydown.shift.enter)=${
-                createListener('shift.enter')}></div>`,
+            html
+            `<div (keydown.enter)=${createListener('enter')} (keydown.shift.enter)=${createListener('shift.enter')}></div>`,
             container);
-        const div = container.firstChild as HTMLElement;
+            const div = container.firstChild as HTMLElement;
 
-        let event = createEvent('keydown', {key: 'enter'});
-        div.dispatchEvent(event);
+            let event = createEvent('keydown', {key: 'enter'});
+            div.dispatchEvent(event);
 
-        assert.equal(id, 'enter');
-        assert.equal(capturedEvent, event);
+            assert.property(capturedEvents, 'enter');
+            assert.propertyVal(capturedEvents, 'enter', event);
+            assert.notProperty(capturedEvents, 'shift.enter');
 
-        id = null!;
-        capturedEvent = null!;
+            capturedEvents = {};
 
-        event = createEvent('keydown', {key: 'enter', shiftKey: true});
-        div.dispatchEvent(event);
+            event = createEvent('keydown', {key: 'enter', shiftKey: true});
+            div.dispatchEvent(event);
 
-        assert.equal(id, 'shift.enter');
-        assert.equal(capturedEvent, event);
+            assert.property(capturedEvents, 'enter');
+            assert.propertyVal(capturedEvents, 'enter', event);
+            assert.property(capturedEvents, 'shift.enter');
+            assert.propertyVal(capturedEvents, 'shift.enter', event);
+      });
+
+      test('respects unwanted modifiers', () => {
+        let capturedEvents: {[s: string]: KeyboardEvent} = {};
+
+        function createListener(id: string) {
+          return (e: KeyboardEvent) => {
+            capturedEvents[id] = e;
+          };
+        }
+
+        render(
+          html
+          `<div (keydown.enter)=${createListener('enter')} (keydown.noshift.enter)=${createListener('noshift.enter')}></div>`,
+          container);
+          const div = container.firstChild as HTMLElement;
+
+          capturedEvents = {};
+
+          let event = createEvent('keydown', {key: 'enter', shiftKey: true});
+          div.dispatchEvent(event);
+
+          assert.property(capturedEvents, 'enter');
+          assert.propertyVal(capturedEvents, 'enter', event);
+          assert.notProperty(capturedEvents, 'noshift.enter');
+
+          capturedEvents = {};
+
+          event = createEvent('keydown', {key: 'enter'});
+          div.dispatchEvent(event);
+
+          assert.property(capturedEvents, 'enter');
+          assert.propertyVal(capturedEvents, 'enter', event);
+          assert.property(capturedEvents, 'noshift.enter');
+          assert.propertyVal(capturedEvents, 'noshift.enter', event);
       });
 
       test('adds event listener objects, calls with right this value', () => {

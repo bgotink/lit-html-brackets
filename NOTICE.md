@@ -43,7 +43,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 ## Angular
 
-The keyboard event parsing code is a modified copy of the `key_event.ts` file found in `@angular/platform-browser@4.x`.
+The keyboard event parsing code is a modified copy of the `key_event.ts` file found in `@angular/platform-browser@5.x`.
 
 The code from [Angular][angular] is licensed under the [MIT license](https://angular.io/license).
 
