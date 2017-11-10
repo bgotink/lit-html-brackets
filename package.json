@@ -5,6 +5,11 @@
   "main": "lit-html-brackets.js",
   "module": "lit-html-brackets.js",
   "author": "Bram Gotink <bram@gotink.me>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bgotink/lit-html-brackets.git"
+  },
+  "homepage": "https://github.com/bgotink/lit-html-brackets",
   "license": "MIT",
   "scripts": {
     "build:old": "tsc && rollup out-tsc/lit-html-brackets.js --output.file lit-html-brackets.js --output.format es --sourcemap --external $(pwd)/lit-html/lit-html.js",
