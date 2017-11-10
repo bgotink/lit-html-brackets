@@ -34,9 +34,9 @@ const template = ({ isAuthenticated, login, logout }) => html`
 ## Motivation
 
 - lit-html is awesome but by default it lacks options to set properties and event binding instead of attributes
-- The extension provided by lit-html to introduce a Polymer-like syntax for setting attributes and event listeners
-  (`property`, `attribute$` and `on-event`) leads to confusing behaviour. This extension's syntax (`[property]`,
-  `attribute` and `(event)`) doesn't suffer from the same confusion.  
+- The extension provided by lit-html to introduce a Polymer-like syntax for setting properties and event listeners
+  (`property`, `attribute$` and `on-event`) leads to confusing behaviour, which this extension's syntax (`[property]`,
+  `attribute` and `(event)`) doesn't:  
   This extension defaults to attributes, so if you don't write `[]` or `()` anywhere you are really just writing
   regular HTML, while the lit-html extension makes you set properties instead of attributes:
 
