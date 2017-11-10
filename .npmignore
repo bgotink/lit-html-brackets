@@ -1,0 +1,6 @@
+/.clang-format
+/.editorconfig
+/.travis.yml
+
+/tslint.json
+/.vscode
