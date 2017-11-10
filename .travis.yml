@@ -10,5 +10,8 @@ cache:
   - node_modules
 before_script:
 - npm run build
+- git clone https://github.com/PolymerLabs/lit-html.git _lit-html
+- (cd _lit-html && git checkout 748ab20881b1c3279ceb2d6b8f1d3ebc8be708d3 && npm install && npm run build)
+- npm link ./_lit-html
 script:
 - xvfb-run wct --npm
