@@ -67,6 +67,9 @@ const template = ({ isAuthenticated, login, logout }) => html`
   ```
 - Event listeners can be registered with negative modifiers `noshift`, `noalt`, `nocontrol` and `nometa`. These will
   only fire the listener if the modifier is absent.
-- Event listeners are fired even if unqualified modifiers are present. Let's take the example of a listener registered
+- Event listeners are fired even if unspecified modifiers are present. Let's take the example of a listener registered
   to `keyup.enter`. In Angular 5 that listener wouldn't fire for `shift+enter` key-ups. In lit-html-brackets that
   listener will fire. Use `keyup.noshift.enter` to get a listener that doesn't fire when shift is pressed.
+- Event listeners in Angular can be bound to window/document events. This is arguably more useful when used with
+  Angular's `@HostBinding('window:scroll')` annotation than inside a template `<div (window:scroll)="...">`.
+  As such, lit-html-brackets doesn't support these global event listeners.
