@@ -11,8 +11,10 @@ import {
 
 import {createEventPart} from './lib/event-part.js';
 import {createPropertyPart} from './lib/property-part.js';
+import {createTwoWayPart} from './lib/two-way-part.js';
 
 export {html, svg};
+export {bind} from './lib/bind-directive.js';
 
 export function render(result: TemplateResult, container: Element|DocumentFragment) {
   baseRender(result, container, bracketsPartCallback);
@@ -25,7 +27,9 @@ export function bracketsPartCallback(instance: TemplateInstance, templatePart: T
 
   const rawName = templatePart.rawName!;
 
-  if (rawName.startsWith('[') && rawName.endsWith(']')) {
+  if (rawName.startsWith('[(') && rawName.endsWith(')]')) {
+    return createTwoWayPart(instance, node as Element, rawName.substr(2, rawName.length - 4), templatePart.strings!);
+  } else if (rawName.startsWith('[') && rawName.endsWith(']')) {
     return createPropertyPart(instance, node as Element, rawName.substr(1, rawName.length - 2), templatePart.strings!);
   } else if (rawName.startsWith('(') && rawName.endsWith(')')) {
     return createEventPart(instance, node as Element, rawName.substr(1, rawName.length - 2), templatePart.strings!);

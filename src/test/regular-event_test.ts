@@ -2,7 +2,7 @@
 /// <reference path="../../node_modules/@types/chai/index.d.ts" />
 
 import {html} from '../../lit-html/lit-html.js';
-import {render} from '../lit-html-brackets.js';
+import {bind, render} from '../lit-html-brackets.js';
 
 const {assert} = chai;
 
@@ -43,6 +43,19 @@ suite('lit-html-brackets', () => {
       div.click();
       assert.equal(thisValue, listener);
       assert.instanceOf(event, MouseEvent);
+    });
+
+    test('support the bind directive for custom events', () => {
+      const obj = {
+        foo: false,
+      };
+
+      render(html`<div (custom)=${bind(obj, 'foo')}></div>`, container);
+      const div = container.firstChild as HTMLElement;
+
+      div.dispatchEvent(new CustomEvent('custom', {detail: true}));
+
+      assert.equal(obj.foo, true);
     });
 
     test('only adds event listener once', () => {

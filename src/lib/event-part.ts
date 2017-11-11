@@ -1,4 +1,5 @@
 import {getValue, Part, TemplateInstance} from '../../lit-html/lit-html.js';
+import {Binding} from './bind-directive.js';
 
 export function createEventPart(
     instance: TemplateInstance, element: Element, eventName: string, strings: string[]): Part {
@@ -36,7 +37,9 @@ export class EventPart<E extends Event> implements Part {
   }
 
   public handleEvent(event: E): void {
-    if (typeof this._listener.handleEvent === 'function') {
+    if ((this._listener as Binding<any>).__binding) {
+      (this._listener as Binding<any>).set((event as any).detail);
+    } else if (typeof this._listener.handleEvent === 'function') {
       this._listener.handleEvent(event);
     } else {
       this._listener.call(this.element, event);

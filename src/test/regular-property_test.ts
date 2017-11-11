@@ -2,7 +2,7 @@
 /// <reference path="../../node_modules/@types/chai/index.d.ts" />
 
 import {html} from '../../lit-html/lit-html.js';
-import {render} from '../lit-html-brackets.js';
+import {bind, render} from '../lit-html-brackets.js';
 
 const {assert} = chai;
 
@@ -32,6 +32,17 @@ suite('lit-html-brackets', () => {
       render(html`<div [foo]="1${'bar'}2${'baz'}3"></div>`, container);
       const div = container.firstChild!;
       assert.equal((div as any).foo, '1bar2baz3');
+    });
+
+    test('support the bind directive for custom events', () => {
+      const obj = {
+        foo: true,
+      };
+
+      render(html`<div [prop]=${bind(obj, 'foo')}></div>`, container);
+      const div = container.firstChild as HTMLElement;
+
+      assert.equal((div as any).prop, true);
     });
   });
 });

@@ -1,4 +1,5 @@
 import {AttributePart, getValue, Part, TemplateInstance} from '../../lit-html/lit-html.js';
+import {Binding} from './bind-directive.js';
 
 export function createPropertyPart(
     instance: TemplateInstance, element: Element, property: string, strings: string[]): Part {
@@ -20,6 +21,11 @@ export abstract class PropertyPart extends AttributePart {
 
     if (s.length === 2 && s[0] === '' && s[s.length - 1] === '') {
       value = getValue(this, values[startIndex]);
+
+      if (value != null && (value as Binding<any>).__binding) {
+        value = (value as Binding<any>).get();
+      }
+
     } else {
       value = this._interpolate(values, startIndex);
     }
