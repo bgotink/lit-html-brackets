@@ -12,6 +12,7 @@ import {
 import {createEventPart} from './lib/event-part.js';
 import {createPropertyPart} from './lib/property-part.js';
 import {createTwoWayPart} from './lib/two-way-part.js';
+import {createRefPart} from './lib/ref-part.js';
 
 export {html, svg};
 export {bind} from './lib/bind-directive.js';
@@ -28,11 +29,13 @@ export function bracketsPartCallback(instance: TemplateInstance, templatePart: T
   const rawName = templatePart.rawName!;
 
   if (rawName.startsWith('[(') && rawName.endsWith(')]')) {
-    return createTwoWayPart(instance, node as Element, rawName.substr(2, rawName.length - 4), templatePart.strings!);
+    return createTwoWayPart(instance, node as Element, rawName.slice(2, rawName.length - 2), templatePart.strings!);
   } else if (rawName.startsWith('[') && rawName.endsWith(']')) {
-    return createPropertyPart(instance, node as Element, rawName.substr(1, rawName.length - 2), templatePart.strings!);
+    return createPropertyPart(instance, node as Element, rawName.slice(1, rawName.length - 1), templatePart.strings!);
   } else if (rawName.startsWith('(') && rawName.endsWith(')')) {
-    return createEventPart(instance, node as Element, rawName.substr(1, rawName.length - 2), templatePart.strings!);
+    return createEventPart(instance, node as Element, rawName.slice(1, rawName.length - 1), templatePart.strings!);
+  } else if (rawName.startsWith('#')) {
+    return createRefPart(instance, node as Element, rawName.slice(1), templatePart.strings!);
   } else {
     return defaultPartCallback(instance, templatePart, node);
   }

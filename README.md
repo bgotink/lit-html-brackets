@@ -11,13 +11,13 @@ build the lit-html master branch and `npm link` it to this repository for the te
 ## Overview
 
 ```js
-const template = ({ isAuthenticated, login, logout, options }) => html`
+const template = ({ isAuthenticated, login, logout, options, refs }) => html`
   <label>
-    <input type="checkbox" [(checked::change)]=${bind(options, 'rememberMe')}>
+    <input #rememberMe=${refs} type="checkbox" [(checked::change)]=${bind(options, 'rememberMe')}>
     Remember me?
   </label>
 
-  <button
+  <button #=${bind(refs, 'loginButton')}
     class="login-cta" [class.login-cta--logged-on]=${isAuthenticated}
     (click)="${isAuthenticated ? logout : login}" (keyup.enter)=${isAuthenticated ? logout : login}
     >
@@ -33,6 +33,9 @@ const template = ({ isAuthenticated, login, logout, options }) => html`
   - Listeners for `keyup`/`keydown` support binding to a single key or a key with modifiers, with slightly different
     semantics from Angular.
 - Use `[()]` for two way binding. This requires use of the `bind` directive.
+- Use `#` to get references to the elements. This can be used with `#prop=${object}` where `object.prop` will be set to
+  the element instance, or `#name=${callback}` where `callback(elementRef, 'name')` will be called. The `name` can be
+  empty.
 - The `bind` directive which can be used with the three types of bindings.
   - `[prop]=${bind(obj, propName)}`: identical to `[prop]=${obj[propName]}`
   - `(event)=${bind(obj, propName)}`: identical to `(event)=${e => obj[propName] = e.detail}`. This uses
@@ -43,6 +46,7 @@ const template = ({ isAuthenticated, login, logout, options }) => html`
   - `[(prop::some-event)]=${bind(obj, propName)}`: identical to `[prop]=${obj[propName]}` combined with
     `(some-event)=${() => obj[propName] = elementRef.prop}` where `elementRef` is the element on which the property is
     bound.
+  - `#=${bind(obj, propName)}`: identical to `#propName=${obj}`
 - All other bindings are left as is, i.e. node bindings are not changed and attributes that don't use `[]` or `()` are
   simply set as attributes.
 - The `[]`, `()` and `[()]` syntax only works in attributes with a `${}` value due to how `lit-html` internally works.
@@ -52,7 +56,7 @@ const template = ({ isAuthenticated, login, logout, options }) => html`
 - lit-html is awesome but by default it lacks options to set properties and event binding instead of attributes
 - The extension provided by lit-html to introduce a Polymer-like syntax for setting properties and event listeners
   (`property`, `attribute$` and `on-event`) leads to confusing behaviour, which this extension's syntax (`[property]`,
-  `attribute` and `(event)`) doesn't:
+  `attribute` and `(event)`) doesn't:  
   This extension defaults to attributes, so if you don't write `[]` or `()` anywhere you are really just writing
   regular HTML, while the lit-html extension makes you set properties instead of attributes:
 
