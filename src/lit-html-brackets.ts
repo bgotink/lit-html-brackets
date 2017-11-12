@@ -11,11 +11,11 @@ import {
 
 import {createEventPart} from './lib/event-part.js';
 import {createPropertyPart} from './lib/property-part.js';
-import {createTwoWayPart} from './lib/two-way-part.js';
 import {createRefPart} from './lib/ref-part.js';
+import {createTwoWayPart} from './lib/two-way-part.js';
 
-export {html, svg};
 export {bind} from './lib/bind-directive.js';
+export {html, svg};
 
 export function render(result: TemplateResult, container: Element|DocumentFragment) {
   baseRender(result, container, bracketsPartCallback);
