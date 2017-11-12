@@ -4,6 +4,7 @@
 /lit-html-brackets.js
 /lit-html-brackets.js.map
 
+/out-tsc
 /lib
 
 /test/**/*.d.ts
