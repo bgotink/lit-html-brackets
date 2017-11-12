@@ -1,4 +1,5 @@
-import {getValue, Part, TemplateInstance} from '../../lit-html/lit-html.js';
+import {getValue, Part, SinglePart, TemplateInstance} from '../../lit-html/lit-html.js';
+
 import {Binding} from './bind-directive.js';
 
 export function createEventPart(
@@ -24,7 +25,7 @@ export function createEventPart(
   return new FilteredKeyboardEventPart(instance, element, domEventName, parts);
 }
 
-export class EventPart<E extends Event> implements Part {
+export class EventPart<E extends Event> implements SinglePart {
   instance: TemplateInstance;
   element: Element;
   eventName: string;
