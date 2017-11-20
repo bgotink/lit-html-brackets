@@ -33,7 +33,7 @@
     "chai": "^4.1.2",
     "clang-format": "^1.1.0",
     "get-own-property-symbols": "^0.9.2",
-    "lit-html": "PolymerLabs/lit-html#748ab20881b1c3279ceb2d6b8f1d3ebc8be708d3",
+    "lit-html": "bgotink/lit-html#feature/prepare",
     "mocha": "^3.4.2",
     "rollup": "^0.50.0",
     "rollup-plugin-sourcemaps": "^0.4.2",
