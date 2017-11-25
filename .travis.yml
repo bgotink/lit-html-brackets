@@ -5,13 +5,10 @@ node_js: stable
 addons:
   firefox: latest
   chrome: stable
-# cache:
-#   directories:
-#   - node_modules
+cache:
+  directories:
+    - node_modules
 before_script:
-- git clone https://github.com/PolymerLabs/lit-html.git _lit-html
-- (cd _lit-html && git checkout 748ab20881b1c3279ceb2d6b8f1d3ebc8be708d3 && npm install && npm run build)
-- npm link ./_lit-html
-- npm run build
+  - npm run build
 script:
-- xvfb-run wct --npm
+  - xvfb-run wct --npm
