@@ -35,8 +35,9 @@ suite('lit-html-brackets', () => {
         <div #div=${ref}></div>
         <button #button=${ref}></button>
       `, container);
-      const div = container.firstChild!;
-      const button = container.lastChild!;
+
+      const div = container.firstElementChild!;
+      const button = container.lastElementChild!;
 
       assert.equal(obj.div, div);
       assert.equal(obj.button, button);
