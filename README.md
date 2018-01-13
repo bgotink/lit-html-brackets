@@ -5,9 +5,6 @@ Angular's templates.
 
 [![Build status](https://travis-ci.org/bgotink/lit-html-brackets.svg?branch=master)](https://travis-ci.org/bgotink/lit-html-brackets)
 
-__Note__: This library currently requires a build of lit-html that hasn't been published yet. You'll need to manually
-build the lit-html master branch and `npm link` it to this repository for the tests to succeed.
-
 ## Overview
 
 ```js
@@ -53,7 +50,7 @@ const template = ({ isAuthenticated, login, logout, options, refs }) => html`
 
 ## Motivation
 
-- lit-html is awesome but by default it lacks options to set properties and event binding instead of attributes
+- lit-html is awesome but by default it lacks options to set properties or event binding.
 - The extension provided by lit-html to introduce a Polymer-like syntax for setting properties and event listeners
   (`property`, `attribute$` and `on-event`) leads to confusing behaviour, which this extension's syntax (`[property]`,
   `attribute` and `(event)`) doesn't:  
