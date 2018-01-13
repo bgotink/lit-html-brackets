@@ -9,5 +9,6 @@ cache:
   directories:
     - node_modules
 script:
-  - xvfb-run wct --npm
+  # Sadly there are issues when using Chrome on travis (Polymer/web-component-tester#656)
+  - xvfb-run wct --npm -l firefox
   - npm run lint
