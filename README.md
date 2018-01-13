@@ -32,11 +32,11 @@ const template = ({ isAuthenticated, login, logout, options, refs }) => html`
 - Use `()` in attributes for event binding
   - Listeners for `keyup`/`keydown` support binding to a single key or a key with modifiers, with slightly different
     semantics from Angular.
-- Use `[()]` for two way binding. This requires use of the `bind` directive.
+- Use `[()]` for two way binding. This requires use of the `bind` function.
 - Use `#` to get references to the elements. This can be used with `#prop=${object}` where `object.prop` will be set to
   the element instance, or `#name=${callback}` where `callback(elementRef, 'name')` will be called. The `name` can be
   empty.
-- The `bind` directive which can be used with the three types of bindings.
+- The `bind` function which can be used with the three types of bindings.
   - `[prop]=${bind(obj, propName)}`: identical to `[prop]=${obj[propName]}`
   - `(event)=${bind(obj, propName)}`: identical to `(event)=${e => obj[propName] = e.detail}`. This uses
     `CustomEvent#detail` and as such only works for custom events, not for browser events.
@@ -93,6 +93,6 @@ const template = ({ isAuthenticated, login, logout, options, refs }) => html`
 - Event listeners in Angular can be bound to window/document events. This is arguably more useful when used with
   Angular's `@HostBinding('window:scroll')` annotation than inside a template `<div (window:scroll)="...">`.
   As such, lit-html-brackets doesn't support these global event listeners.
-- Two way binding has to be used with the `bind` directive, otherwise it results in one-way binding. This simply because
+- Two way binding has to be used with the `bind` function, otherwise it results in one-way binding. This simply because
   we need the object and the property key to create two way binding. In Angular's templates, the object is known: the
   component instance. This is not the case for lit-html-brackets.

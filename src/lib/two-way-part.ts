@@ -1,5 +1,6 @@
 import {AttributePart, getValue, Part, TemplateInstance} from '../../lit-html/lit-html.js';
-import {Binding} from './bind-directive.js';
+
+import {Binding, isBinding} from './binding.js';
 
 export function createTwoWayPart(
     instance: TemplateInstance, element: Element, property: string, strings: string[]): Part {
@@ -38,8 +39,8 @@ export class TwoWayPropertyPart extends AttributePart {
       value = this._interpolate(values, startIndex);
     }
 
-    if (value != null && (value as Binding<any>).__binding) {
-      this._setBindingValue(value as Binding<any>);
+    if (isBinding(value)) {
+      this._setBindingValue(value);
     } else {
       this._setSimpleValue(value);
     }

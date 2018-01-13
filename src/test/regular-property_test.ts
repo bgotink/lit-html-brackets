@@ -34,7 +34,7 @@ suite('lit-html-brackets', () => {
       assert.equal((div as any).foo, '1bar2baz3');
     });
 
-    test('support the bind directive for custom events', () => {
+    test('support the bind function for custom events', () => {
       const obj = {
         foo: true,
       };

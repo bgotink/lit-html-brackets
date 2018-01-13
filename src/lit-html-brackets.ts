@@ -14,7 +14,7 @@ import {createPropertyPart} from './lib/property-part.js';
 import {createRefPart} from './lib/ref-part.js';
 import {createTwoWayPart} from './lib/two-way-part.js';
 
-export {bind} from './lib/bind-directive.js';
+export {bind} from './lib/binding.js';
 export {html, svg};
 
 export function render(result: TemplateResult, container: Element|DocumentFragment) {

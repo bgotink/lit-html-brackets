@@ -45,7 +45,7 @@ suite('lit-html-brackets', () => {
       assert.instanceOf(event, MouseEvent);
     });
 
-    test('support the bind directive for custom events', () => {
+    test('support the bind functino for custom events', () => {
       const obj = {
         foo: false,
       };

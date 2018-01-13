@@ -1,6 +1,6 @@
 import {getValue, Part, SinglePart, TemplateInstance} from '../../lit-html/lit-html.js';
 
-import {Binding} from './bind-directive.js';
+import {isBinding} from './binding.js';
 
 export function createEventPart(
     instance: TemplateInstance, element: Element, eventName: string, strings: string[]): Part {
@@ -38,8 +38,8 @@ export class EventPart<E extends Event> implements SinglePart {
   }
 
   public handleEvent(event: E): void {
-    if ((this._listener as Binding<any>).__binding) {
-      (this._listener as Binding<any>).set((event as any).detail);
+    if (isBinding(this._listener)) {
+      this._listener.set((event as any).detail);
     } else if (typeof this._listener.handleEvent === 'function') {
       this._listener.handleEvent(event);
     } else {

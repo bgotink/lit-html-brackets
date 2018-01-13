@@ -1,5 +1,6 @@
 import {AttributePart, getValue, Part, TemplateInstance} from '../../lit-html/lit-html.js';
-import {Binding} from './bind-directive.js';
+
+import {isBinding} from './binding.js';
 
 export function createRefPart(instance: TemplateInstance, element: Element, property: string, strings: string[]): Part {
   return new RefPart(instance, element, property, strings);
@@ -20,11 +21,9 @@ export class RefPart extends AttributePart {
     const value = getValue(this, values[startIndex]);
 
     if (value && value !== this._previousValue) {
-      if ((value as Binding<any>).__binding) {
-        const binding = value as Binding<any>;
-
-        if (binding.get() !== this.element) {
-          binding.set(this.element);
+      if (isBinding(value)) {
+        if (value.get() !== this.element) {
+          value.set(this.element);
         }
       } else if (typeof value === 'function') {
         value(this.element, this.name);
