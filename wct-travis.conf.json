@@ -2,7 +2,12 @@
   "plugins": {
     "local": {
       "browserOptions": {
-        "chrome": ["headless"]
+        "chrome": [
+          "start-maximized",
+          "headless",
+          "disable-gpu",
+          "no-sandbox"
+        ]
       }
     }
   }
