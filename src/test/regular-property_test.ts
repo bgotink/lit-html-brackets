@@ -1,14 +1,12 @@
 /// <reference path="../../node_modules/@types/mocha/index.d.ts" />
 /// <reference path="../../node_modules/@types/chai/index.d.ts" />
 
-import {html} from '../../lit-html/lit-html.js';
-import {bind, render} from '../lit-html-brackets.js';
+import {bind, html, render} from '../lit-html-brackets.js';
 
 const {assert} = chai;
 
 suite('lit-html-brackets', () => {
   suite('regular properties', () => {
-
     let container: HTMLElement;
 
     setup(() => {

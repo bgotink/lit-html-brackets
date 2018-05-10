@@ -1,14 +1,12 @@
 /// <reference path="../../node_modules/@types/mocha/index.d.ts" />
 /// <reference path="../../node_modules/@types/chai/index.d.ts" />
 
-import {html} from '../../lit-html/lit-html.js';
-import {bind, render} from '../lit-html-brackets.js';
+import {bind, html, render} from '../lit-html-brackets.js';
 
 const {assert} = chai;
 
 suite('lit-html-brackets', () => {
   suite('refs', () => {
-
     let container: HTMLElement;
 
     setup(() => {
@@ -31,10 +29,12 @@ suite('lit-html-brackets', () => {
         obj[name] = element;
       }
 
-      render(html`
+      render(
+          html`
         <div #div=${ref}></div>
         <button #button=${ref}></button>
-      `, container);
+      `,
+          container);
 
       const div = container.firstElementChild!;
       const button = container.lastElementChild!;
