@@ -1,9 +1,7 @@
 import {
   defaultPartCallback,
-  html,
   Part,
-  render as baseRender,
-  svg,
+  render,
   TemplateInstance,
   TemplatePart,
   TemplateResult
@@ -15,11 +13,14 @@ import {createRefPart} from './lib/ref-part.js';
 import {createTwoWayPart} from './lib/two-way-part.js';
 
 export {bind} from './lib/binding.js';
-export {html, svg};
 
-export function render(result: TemplateResult, container: Element|DocumentFragment) {
-  baseRender(result, container, bracketsPartCallback);
-}
+export {render};
+
+export const html = (strings: TemplateStringsArray, ...values: any[]) =>
+    new TemplateResult(strings, values, 'html', bracketsPartCallback);
+
+export const svg = (strings: TemplateStringsArray, ...values: any[]) =>
+    new TemplateResult(strings, values, 'svg', bracketsPartCallback);
 
 export function bracketsPartCallback(instance: TemplateInstance, templatePart: TemplatePart, node: Node): Part {
   if (templatePart.type !== 'attribute') {

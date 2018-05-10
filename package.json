@@ -28,7 +28,7 @@
     "serve": "echo 'visit http://127.0.0.1:8080/components/lit-html-brackets/demo/index.html' && polyserve --npm --port 8080"
   },
   "peerDependencies": {
-    "lit-html": "0.8.0"
+    "lit-html": "0.10.0"
   },
   "devDependencies": {
     "@types/chai": "^4.1.0",
@@ -39,7 +39,7 @@
     "babel-polyfill": "^6.26.0",
     "chai": "^4.1.2",
     "clang-format": "^1.2.3",
-    "lit-html": "0.8.0",
+    "lit-html": "0.10.0",
     "mocha": "^3.5.3",
     "rollup-plugin-sourcemaps": "^0.4.2",
     "tslint": "^5.9.1",
