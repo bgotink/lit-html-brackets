@@ -20,7 +20,8 @@
     "types": [
       "chai",
       "mocha"
-    ]
+    ],
+    "skipLibCheck": true
   },
   "include": [
     "src/**/*.ts"

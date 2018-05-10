@@ -20,7 +20,8 @@
       // This allows us to import ../lit-html/lib-html.js at development time as well as at runtime
       "./node_modules",
       "."
-    ]
+    ],
+    "skipLibCheck": true
   },
   "files": [
     "src/lit-html-brackets.ts"
