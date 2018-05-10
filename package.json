@@ -1,6 +1,6 @@
 {
   "name": "lit-html-brackets",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "HTML Template literals with a bracket syntax similar to Angular",
   "main": "lit-html-brackets.js",
   "module": "lit-html-brackets.js",
