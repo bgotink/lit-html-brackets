@@ -13,7 +13,7 @@ export default {
  ],
 
  output: {
-   file: './lit-html-brackets.js',
+   file: 'out-rollup/lit-html-brackets.js',
    format: 'es',
    sourcemap: true,
  }

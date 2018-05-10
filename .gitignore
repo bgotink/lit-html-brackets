@@ -5,6 +5,7 @@
 /lit-html-brackets.js.map
 
 /out-tsc
+/out-rollup
 /lib
 
 /test/**/*.d.ts

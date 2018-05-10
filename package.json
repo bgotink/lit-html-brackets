@@ -14,7 +14,7 @@
   "license": "MIT",
   "scripts": {
     "build:test": "tsc -p tsconfig.tests.json",
-    "build:lib": "rm -rf lib lit-html-brackets{.js,.js.map,.d.ts} && tsc -p tsconfig.lib.json && rollup -c rollup.config.js",
+    "build:lib": "rm -rf lib lit-html-brackets{.js,.js.map,.d.ts} && tsc -p tsconfig.lib.json && rollup -c rollup.config.js && mv out-rollup/lit-html-brackets.js{,.map} .",
     "build:dev": "tsc",
     "prepare": "rm -rf lib lit-html-brackets{.js,.js.map,.d.ts} tests/*{.js,.js.map,.d.ts} && npm run -s build:test && npm run -s build:lib",
     "gen-docs": "typedoc --readme none --mode modules --excludeNotExported --excludePrivate --exclude **/*_test.ts --out ./docs/api .",
