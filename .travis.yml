@@ -1,7 +1,7 @@
 language: node_js
 sudo: false
 dist: trusty
-node_js: stable
+node_js: lts/carbon
 addons:
   firefox: latest
   chrome: stable
