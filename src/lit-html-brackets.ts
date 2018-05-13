@@ -4,7 +4,8 @@ import {
   render,
   TemplateInstance,
   TemplatePart,
-  TemplateResult
+  TemplateResult,
+  SVGTemplateResult,
 } from '../lit-html/lit-html.js';
 
 import {createEventPart} from './lib/event-part.js';
@@ -20,7 +21,7 @@ export const html = (strings: TemplateStringsArray, ...values: any[]) =>
     new TemplateResult(strings, values, 'html', bracketsPartCallback);
 
 export const svg = (strings: TemplateStringsArray, ...values: any[]) =>
-    new TemplateResult(strings, values, 'svg', bracketsPartCallback);
+    new SVGTemplateResult(strings, values, 'svg', bracketsPartCallback);
 
 export function bracketsPartCallback(instance: TemplateInstance, templatePart: TemplatePart, node: Node): Part {
   if (templatePart.type !== 'attribute') {
