@@ -4,7 +4,7 @@ import filesize from 'rollup-plugin-filesize';
 import {terser} from 'rollup-plugin-terser';
 
 export default {
-  input: 'lit-html-brackets.js',
+  input: 'out-tsc/lit-html-brackets.js',
 
   external: [path.resolve(path.dirname(__dirname), 'lit-html', 'lit-html.js')],
 

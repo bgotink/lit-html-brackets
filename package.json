@@ -22,7 +22,7 @@
     "posttest": "tslint --project .",
     "quicktest": "wct -l chrome -p --npm",
     "checksize": "npm run -s build:lib && rollup -c rollup.config.js",
-    "checksize:with-lit": "npm run -s build:lib && rollup -c rollup.with-lit.config.js",
+    "checksize:with-lit": "tsc -p tsconfig.lib.json --outDir out-tsc --declarationDir out-tsc && rollup -c rollup.with-lit.config.js",
     "format": "find src test | grep '\\.js$\\|\\.ts$' | xargs clang-format --style=file -i",
     "lint": "tslint --project ./",
     "preserve": "npm run build:lib",
