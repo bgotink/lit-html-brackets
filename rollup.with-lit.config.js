@@ -2,7 +2,7 @@ import filesize from 'rollup-plugin-filesize';
 import {terser} from 'rollup-plugin-terser';
 
 export default {
-  input: 'out-tsc/lit-html-brackets.js',
+  input: 'in-rollup/out-tsc/lit-html-brackets.js',
 
   onwarn(warning) {
     if (warning.code !== 'CIRCULAR_DEPENDENCY') {
