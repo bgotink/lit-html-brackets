@@ -1,44 +1,18 @@
 import {
-  defaultPartCallback,
-  Part,
   render,
-  TemplateInstance,
-  TemplatePart,
-  TemplateResult,
   SVGTemplateResult,
+  TemplateResult,
 } from '../lit-html/lit-html.js';
 
-import {createEventPart} from './lib/event-part.js';
-import {createPropertyPart} from './lib/property-part.js';
-import {createRefPart} from './lib/ref-part.js';
-import {createTwoWayPart} from './lib/two-way-part.js';
+import {BracketedPartProcessor} from './lib/part-processor';
 
 export {bind} from './lib/binding.js';
+export {BracketedPartProcessor, render};
 
-export {render};
+export const partProcessor = new BracketedPartProcessor();
 
 export const html = (strings: TemplateStringsArray, ...values: any[]) =>
-    new TemplateResult(strings, values, 'html', bracketsPartCallback);
+    new TemplateResult(strings, values, 'html', partProcessor);
 
 export const svg = (strings: TemplateStringsArray, ...values: any[]) =>
-    new SVGTemplateResult(strings, values, 'svg', bracketsPartCallback);
-
-export function bracketsPartCallback(instance: TemplateInstance, templatePart: TemplatePart, node: Node): Part {
-  if (templatePart.type !== 'attribute') {
-    return defaultPartCallback(instance, templatePart, node);
-  }
-
-  const rawName = templatePart.rawName!;
-
-  if (rawName.startsWith('[(') && rawName.endsWith(')]')) {
-    return createTwoWayPart(instance, node as Element, rawName.slice(2, rawName.length - 2), templatePart.strings!);
-  } else if (rawName.startsWith('[') && rawName.endsWith(']')) {
-    return createPropertyPart(instance, node as Element, rawName.slice(1, rawName.length - 1), templatePart.strings!);
-  } else if (rawName.startsWith('(') && rawName.endsWith(')')) {
-    return createEventPart(instance, node as Element, rawName.slice(1, rawName.length - 1), templatePart.strings!);
-  } else if (rawName.startsWith('#')) {
-    return createRefPart(instance, node as Element, rawName.slice(1), templatePart.strings!);
-  } else {
-    return defaultPartCallback(instance, templatePart, node);
-  }
-}
+    new SVGTemplateResult(strings, values, 'svg', partProcessor);

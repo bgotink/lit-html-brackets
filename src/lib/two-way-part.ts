@@ -1,9 +1,44 @@
-import {AttributePart, getValue, Part, TemplateInstance} from '../../lit-html/lit-html.js';
+import {PropertyCommitter} from '../../lit-html/lit-html.js';
 
 import {Binding, isBinding} from './binding.js';
 
-export function createTwoWayPart(
-    instance: TemplateInstance, element: Element, property: string, strings: string[]): Part {
+export class TwoWayPropertyCommitter extends PropertyCommitter {
+  private _binding: Binding<any>|null = null;
+
+  public constructor(element: Element, property: string, public eventName: string, strings: string[]) {
+    super(element, property, strings);
+  }
+
+  commit(): void {
+    if (this.dirty) {
+      this.dirty = false;
+      const value = this._getValue();
+
+      if (isBinding(value)) {
+        if (this._binding == null) {
+          this.element.addEventListener(this.eventName, this);
+        }
+
+        this._binding = value;
+        (this.element as any)[this.name] = value.get();
+      } else {
+        if (this._binding != null) {
+          this.element.removeEventListener(this.eventName, this);
+          this._binding = null;
+        }
+
+        (this.element as any)[this.name] = value;
+      }
+    }
+  }
+
+  handleEvent(): void {
+    this._binding!.set((this.element as any)[this.name]);
+  }
+}
+
+export function createTwoWayPropertyCommitter(
+    element: Element, property: string, strings: string[]): PropertyCommitter {
   const colonIdx = property.indexOf('::');
   let eventName;
 
@@ -14,57 +49,5 @@ export function createTwoWayPart(
     eventName = `${property}-changed`;
   }
 
-  return new TwoWayPropertyPart(instance, element, property, eventName, strings);
-}
-
-export class TwoWayPropertyPart extends AttributePart {
-  private _binding: Binding<any>|null = null;
-
-  public constructor(
-      instance: TemplateInstance,
-      element: Element,
-      property: string,
-      public eventName: string,
-      strings: string[]) {
-    super(instance, element, property, strings);
-  }
-
-  setValue(values: any[], startIndex: number): void {
-    const s = this.strings;
-    let value: any;
-
-    if (s.length === 2 && s[0] === '' && s[s.length - 1] === '') {
-      value = getValue(this, values[startIndex]);
-    } else {
-      value = this._interpolate(values, startIndex);
-    }
-
-    if (isBinding(value)) {
-      this._setBindingValue(value);
-    } else {
-      this._setSimpleValue(value);
-    }
-  }
-
-  private _setSimpleValue(value: any): void {
-    if (this._binding != null) {
-      this.element.removeEventListener(this.eventName, this);
-      this._binding = null;
-    }
-
-    (this.element as any)[this.name] = value;
-  }
-
-  private _setBindingValue(value: Binding<any>): void {
-    if (this._binding == null) {
-      this.element.addEventListener(this.eventName, this);
-    }
-
-    this._binding = value;
-    (this.element as any)[this.name] = value.get();
-  }
-
-  handleEvent(): void {
-    this._binding!.set((this.element as any)[this.name]);
-  }
+  return new TwoWayPropertyCommitter(element, property, eventName, strings);
 }

@@ -1,37 +1,43 @@
-import {AttributePart, getValue, Part, TemplateInstance} from '../../lit-html/lit-html.js';
+import {Part} from '../../lit-html/lit-html.js';
 
 import {isBinding} from './binding.js';
 
-export function createRefPart(instance: TemplateInstance, element: Element, property: string, strings: string[]): Part {
-  return new RefPart(instance, element, property, strings);
-}
-
-export class RefPart extends AttributePart {
-  private _previousValue: any = undefined;
-
-  constructor(instance: TemplateInstance, element: Element, property: string, strings: string[]) {
-    super(instance, element, property, strings);
-
-    if (strings.length !== 2 || strings[0] !== '' || strings[1] !== '') {
-      throw new Error(`Cannot interpolate references, ${strings.join('${...}')}`);
-    }
+export function createRefPart(element: Element, property: string, strings: string[]): Part {
+  if (strings.length !== 2 || strings[0] !== '' || strings[1] !== '') {
+    throw new Error(`Cannot interpolate references, ${strings.join('${...}')}`);
   }
 
-  setValue(values: any[], startIndex: number): void {
-    const value = getValue(this, values[startIndex]);
+  return new RefPart(element, property);
+}
 
-    if (value && value !== this._previousValue) {
-      if (isBinding(value)) {
-        if (value.get() !== this.element) {
-          value.set(this.element);
+export class RefPart implements Part {
+  value: any = undefined;
+  private _dirty = true;
+
+  constructor(private _element: Element, private _property: string) {
+  }
+
+  setValue(value: any): void {
+    this._dirty = value !== this.value;
+    this.value = value;
+  }
+
+  commit(): void {
+    if (this._dirty) {
+      this._dirty = false;
+      const value = this.value;
+
+      if (value) {
+        if (isBinding(value)) {
+          if (value.get() !== this._element) {
+            value.set(this._element);
+          }
+        } else if (typeof value === 'function') {
+          value(this._element, this._property);
+        } else {
+          value[this._property] = this._element;
         }
-      } else if (typeof value === 'function') {
-        value(this.element, this.name);
-      } else {
-        value[this.name] = this.element;
       }
     }
-
-    this._previousValue = value;
   }
 }

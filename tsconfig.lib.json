@@ -1,27 +1,15 @@
 {
+  "extends": "./tsconfig.json",
   "compilerOptions": {
-    "target": "es2017",
-    "module": "es2015",
-    "lib": [
-      "es2017",
-      "dom"
-    ],
-    "declaration": true,
+    "outDir": ".",
+
     "sourceMap": true,
     "inlineSources": true,
-    "outDir": "./out-tsc",
+
+    "declaration": true,
     "declarationDir": ".",
-    "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true,
-    "rootDirs": [
-      // This allows us to import ../lit-html/lib-html.js at development time as well as at runtime
-      "./node_modules",
-      "."
-    ],
-    "skipLibCheck": true
+
+    "types": []
   },
   "files": [
     "src/lit-html-brackets.ts"

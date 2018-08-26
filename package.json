@@ -14,21 +14,22 @@
   "license": "MIT",
   "scripts": {
     "build:test": "tsc -p tsconfig.tests.json",
-    "build:lib": "rm -rf lib lit-html-brackets{.js,.js.map,.d.ts} && tsc -p tsconfig.lib.json && rollup -c rollup.config.js && mv out-rollup/* .",
+    "build:lib": "rm -rf lib lit-html-brackets{.js,.js.map,.d.ts} && tsc -p tsconfig.lib.json",
     "build:dev": "tsc",
     "prepare": "rm -rf lib lit-html-brackets{.js,.js.map,.d.ts} test/*{.js,.js.map,.d.ts} && npm run -s build:test && npm run -s build:lib",
     "gen-docs": "typedoc --readme none --mode modules --excludeNotExported --excludePrivate --exclude **/*_test.ts --out ./docs/api .",
     "test": "wct --npm",
     "posttest": "tslint --project .",
     "quicktest": "wct -l chrome -p --npm",
-    "checksize": "npm run -s build:lib && uglifyjs lit-html-brackets.js -mc --toplevel | gzip -9 | wc -c",
+    "checksize": "npm run -s build:lib && rollup -c rollup.config.js",
+    "checksize:with-lit": "npm run -s build:lib && rollup -c rollup.with-lit.config.js",
     "format": "find src test | grep '\\.js$\\|\\.ts$' | xargs clang-format --style=file -i",
     "lint": "tslint --project ./",
     "preserve": "npm run build:lib",
     "serve": "echo 'visit http://127.0.0.1:8080/components/lit-html-brackets/demo/index.html' && polyserve --npm --port 8080"
   },
   "peerDependencies": {
-    "lit-html": "0.10.0"
+    "lit-html": "0.11.0-dev.3"
   },
   "devDependencies": {
     "@types/chai": "^4.1.0",
@@ -39,9 +40,10 @@
     "babel-polyfill": "^6.26.0",
     "chai": "^4.1.2",
     "clang-format": "^1.2.3",
-    "lit-html": "0.10.0",
+    "lit-html": "0.11.0-dev.3",
     "mocha": "^3.5.3",
-    "rollup-plugin-sourcemaps": "^0.4.2",
+    "rollup-plugin-filesize": "^4.0.1",
+    "rollup-plugin-terser": "^1.0.1",
     "tslint": "^5.9.1",
     "typedoc": "^0.9.0",
     "typescript": "^2.8.3",
