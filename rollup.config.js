@@ -6,7 +6,7 @@ import {terser} from 'rollup-plugin-terser';
 export default {
   input: 'out-tsc/lit-html-brackets.js',
 
-  external: [path.resolve(path.dirname(__dirname), 'lit-html', 'lit-html.js')],
+  external: [path.resolve(__dirname, 'lit-html', 'lit-html.js')],
 
   plugins:
       [
