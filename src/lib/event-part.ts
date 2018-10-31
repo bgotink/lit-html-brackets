@@ -1,64 +1,15 @@
-import {getValue, Part, SinglePart, TemplateInstance} from '../../lit-html/lit-html.js';
+import {EventPart as LitEventPart, Part} from '../../lit-html/lit-html.js';
 
 import {isBinding} from './binding.js';
 
-export function createEventPart(
-    instance: TemplateInstance, element: Element, eventName: string, strings: string[]): Part {
-  // Events can be registered like this:
-  //   (click)=${listener}
-  // or
-  //   (click)="${listener}"
-  // but never like this
-  //   (click)="on${listener}"
-
-  if (strings.length !== 2 || strings[0] !== '' || strings[1] !== '') {
-    throw new Error(`Cannot bind events to interpolations: "${strings.join('${...}')}"`);
-  }
-
-  const parts: string[] = eventName.toLowerCase().split('.');
-
-  const domEventName = parts.shift();
-  if ((parts.length === 0) || !(domEventName === 'keydown' || domEventName === 'keyup')) {
-    return new EventPart<Event>(instance, element, eventName);
-  }
-
-  return new FilteredKeyboardEventPart(instance, element, domEventName, parts);
-}
-
-export class EventPart<E extends Event> implements SinglePart {
-  instance: TemplateInstance;
-  element: Element;
-  eventName: string;
-  protected _listener: any = null;
-
-  constructor(instance: TemplateInstance, element: Element, eventName: string) {
-    this.instance = instance;
-    this.element = element;
-    this.eventName = eventName;
-  }
-
-  public handleEvent(event: E): void {
-    if (isBinding(this._listener)) {
-      this._listener.set((event as any).detail);
-    } else if (typeof this._listener.handleEvent === 'function') {
-      this._listener.handleEvent(event);
-    } else {
-      this._listener.call(this.element, event);
-    }
-  }
-
-  setValue(value: any): void {
-    const listener = getValue(this, value);
-    const hadListener = this._listener != null;
-    const shouldHaveListener = listener != null;
-
-    this._listener = listener;
-
-    if (shouldHaveListener && !hadListener) {
-      this.element.addEventListener(this.eventName, this);
-    }
-    if (!shouldHaveListener && hadListener) {
-      this.element.removeEventListener(this.eventName, this);
+export class EventPart extends LitEventPart {
+  handleEvent(event: Event) {
+    if (isBinding(this.value)) {
+      this.value.set((event as CustomEvent).detail);
+    } else if (typeof this.value === 'function') {
+      this.value.call(this.element, event);
+    } else if (typeof this.value.handleEvent === 'function') {
+      this.value.handleEvent(event);
     }
   }
 }
@@ -159,14 +110,14 @@ function getEventKey(event: KeyboardEvent): string {
   return key;
 }
 
-export class FilteredKeyboardEventPart extends EventPart<KeyboardEvent> {
+export class FilteredKeyboardEventPart extends EventPart {
   private readonly _eventKey: string;
 
   private readonly _modifiers: string[];
   private readonly _negativeModifiers: string[];
 
-  constructor(instance: TemplateInstance, element: Element, eventName: string, filter: string[]) {
-    super(instance, element, eventName);
+  constructor(element: Element, eventName: string, filter: string[]) {
+    super(element, eventName);
 
     this._eventKey = normalizeKey(filter.pop()!);
     this._modifiers = [];
@@ -210,4 +161,26 @@ export class FilteredKeyboardEventPart extends EventPart<KeyboardEvent> {
 
     super.handleEvent(event);
   }
+}
+
+export function createEventPart(element: Element, eventName: string, strings: string[]): Part {
+  // Events can be registered like this:
+  //   (click)=${listener}
+  // or
+  //   (click)="${listener}"
+  // but never like this
+  //   (click)="on${listener}"
+
+  if (strings.length !== 2 || strings[0] !== '' || strings[1] !== '') {
+    throw new Error(`Cannot bind events to interpolations: "${strings.join('${...}')}"`);
+  }
+
+  const parts: string[] = eventName.toLowerCase().split('.');
+
+  const domEventName = parts.shift();
+  if ((parts.length !== 0) && (domEventName === 'keydown' || domEventName === 'keyup')) {
+    return new FilteredKeyboardEventPart(element, domEventName, parts);
+  }
+
+  return new EventPart(element, eventName);
 }

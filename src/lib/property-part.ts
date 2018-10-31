@@ -1,66 +1,54 @@
-import {AttributePart, getValue, Part, TemplateInstance} from '../../lit-html/lit-html.js';
+import {PropertyCommitter as LitPropertyComitter} from '../../lit-html/lit-html.js';
 
 import {isBinding} from './binding.js';
 
-export function createPropertyPart(
-    instance: TemplateInstance, element: Element, property: string, strings: string[]): Part {
-  if (property.startsWith('class.')) {
-    return new ClassPropertyPart(instance, element, property.substr(6), strings);
-  } else if (property.startsWith('style.')) {
-    return new StylePropertyPart(instance, element, property.substr(6), strings);
-  } else {
-    return new RegularPropertyPart(instance, element, property, strings);
-  }
-}
+export class PropertyCommitter extends LitPropertyComitter {
+  _getValue(): any {
+    const value = super._getValue();
 
-export abstract class PropertyPart extends AttributePart {
-  protected abstract doSetValue(value: any): void;
-
-  setValue(values: any[], startIndex: number): void {
-    const s = this.strings;
-    let value: any;
-
-    if (s.length === 2 && s[0] === '' && s[s.length - 1] === '') {
-      value = getValue(this, values[startIndex]);
-
-      if (isBinding(value)) {
-        value = value.get();
-      }
-
-    } else {
-      value = this._interpolate(values, startIndex);
+    if (isBinding(value)) {
+      return value.get();
     }
 
-    this.doSetValue(value);
+    return value;
   }
 }
 
-export class RegularPropertyPart extends PropertyPart {
-  doSetValue(value: any): void {
-    (this.element as any)[this.name] = value;
+export class ClassPropertyCommitter extends PropertyCommitter {
+  commit() {
+    if (this.dirty) {
+      this.dirty = false;
+      const value = this._getValue();
+
+      this.element.classList.toggle(this.name, !!value && value !== 'false');
+    }
   }
 }
 
-export class ClassPropertyPart extends PropertyPart {
-  doSetValue(value: any): void {
-    this.element.classList.toggle(this.name, !!value && value !== 'false');
-  }
-}
-
-export class StylePropertyPart extends PropertyPart {
-  constructor(instance: TemplateInstance, element: Element, property: string, strings: string[]) {
-    super(instance, element, property, strings);
+export class StylePropertyCommitter extends PropertyCommitter {
+  constructor(element: Element, name: string, strings: string[]) {
+    super(element, name, strings);
 
     if (!(element instanceof HTMLElement || element instanceof SVGElement)) {
       throw new Error('Style interpolation can only be used on HTML elements or SVG elements');
     }
   }
 
-  doSetValue(value: any): void {
-    if (value == null) {
-      value = '';
-    }
+  commit() {
+    if (this.dirty) {
+      this.dirty = false;
+      const value = this._getValue();
 
-    ((this.element as HTMLElement | SVGElement).style as any)[this.name] = value;
+      ((this.element as HTMLElement | SVGElement).style as any)[this.name] = value;
+    }
   }
+}
+
+export function createPropertyCommitter(element: Element, property: string, strings: string[]): PropertyCommitter {
+  if (property.startsWith('class.')) {
+    return new ClassPropertyCommitter(element, property.substr(6 /* "class.".length */), strings);
+  } else if (property.startsWith('style.')) {
+    return new StylePropertyCommitter(element, property.substr(6 /* "style.".length */), strings);
+  }
+  return new PropertyCommitter(element, property, strings);
 }
