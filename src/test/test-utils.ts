@@ -12,5 +12,4 @@
  * http://polymer.github.io/PATENTS.txt
  */
 
-export const stripExpressionMarkers = (html: string) =>
-    html.replace(/<!---->/g, '');
+export const stripExpressionMarkers = (html: string) => html.replace(/<!---->/g, '');
