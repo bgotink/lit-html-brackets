@@ -17,7 +17,7 @@ suite('lit-html-brackets', () => {
       let ref: any = undefined;
 
       render(html`<div #ref=${(el: any) => ref = el}></div>`, container);
-      const div = container.firstChild!;
+      const div = container.firstElementChild!;
 
       assert.equal(ref, div);
     });
@@ -47,7 +47,7 @@ suite('lit-html-brackets', () => {
       const obj: any = {};
 
       render(html`<div #=${bind(obj, 'foo')}></div>`, container);
-      const div = container.firstChild!;
+      const div = container.firstElementChild!;
 
       assert.equal(obj.foo, div);
     });
@@ -56,7 +56,7 @@ suite('lit-html-brackets', () => {
       const obj: any = {};
 
       render(html`<div #foo=${obj}></div>`, container);
-      const div = container.firstChild!;
+      const div = container.firstElementChild!;
 
       assert.equal(obj.foo, div);
     });

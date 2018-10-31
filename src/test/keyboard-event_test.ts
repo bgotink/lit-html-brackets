@@ -46,7 +46,7 @@ suite('lit-html-brackets', () => {
 
         render(
             html`<div (keyup.enter)=${createListener('enter')} (keyup.up)=${createListener('up')}></div>`, container);
-        const div = container.firstChild as HTMLElement;
+        const div = container.firstElementChild as HTMLElement;
 
         let event = createEvent('keyup', {key: 'enter'});
         div.dispatchEvent(event);
@@ -77,7 +77,7 @@ suite('lit-html-brackets', () => {
             html
             `<div (keyup.enter)=${createListener('enter')} (keyup.shift.enter)=${createListener('shift.enter')}></div>`,
             container);
-            const div = container.firstChild as HTMLElement;
+            const div = container.firstElementChild as HTMLElement;
 
             let event = createEvent('keyup', {key: 'enter'});
             div.dispatchEvent(event);
@@ -110,7 +110,7 @@ suite('lit-html-brackets', () => {
           html
           `<div (keyup.enter)=${createListener('enter')} (keyup.noshift.enter)=${createListener('noshift.enter')}></div>`,
           container);
-          const div = container.firstChild as HTMLElement;
+          const div = container.firstElementChild as HTMLElement;
 
           capturedEvents = {};
 
@@ -142,7 +142,7 @@ suite('lit-html-brackets', () => {
           }
         };
         render(html`<div (keyup.enter)=${listener}></div>`, container);
-        const div = container.firstChild as HTMLElement;
+        const div = container.firstElementChild as HTMLElement;
         div.dispatchEvent(createEvent('keyup', {key: 'enter'}));
         assert.equal(thisValue, listener);
         assert.instanceOf(event, KeyboardEvent);
@@ -156,7 +156,7 @@ suite('lit-html-brackets', () => {
         render(html`<div (keyup.enter)=${listener}></div>`, container);
         render(html`<div (keyup.enter)=${listener}></div>`, container);
 
-        const div = container.firstChild as HTMLElement;
+        const div = container.firstElementChild as HTMLElement;
         div.dispatchEvent(createEvent('keyup', {key: 'enter'}));
         assert.equal(count, 1);
       });
@@ -173,7 +173,7 @@ suite('lit-html-brackets', () => {
         render(html`<div (keyup.enter)=${listener1}></div>`, container);
         render(html`<div (keyup.enter)=${listener2}></div>`, container);
 
-        const div = container.firstChild as HTMLElement;
+        const div = container.firstElementChild as HTMLElement;
         div.dispatchEvent(createEvent('keyup', {key: 'enter'}));
         assert.equal(count1, 0);
         assert.equal(count2, 1);
@@ -184,14 +184,14 @@ suite('lit-html-brackets', () => {
         let listener: any = (e: any) => target = e.target;
         const t = () => html`<div (keyup.enter)=${listener}></div>`;
         render(t(), container);
-        const div = container.firstChild as HTMLElement;
+        const div = container.firstElementChild as HTMLElement;
         div.dispatchEvent(createEvent('keyup', {key: 'enter'}));
         assert.equal(target, div);
 
         listener = null;
         target = undefined;
         render(t(), container);
-        assert.equal(container.firstChild, div);
+        assert.equal(container.firstElementChild, div);
         div.dispatchEvent(createEvent('keyup', {key: 'enter'}));
         assert.equal(target, undefined);
       });
@@ -212,7 +212,7 @@ suite('lit-html-brackets', () => {
         render(
             html`<div (keydown.enter)=${createListener('enter')} (keydown.up)=${createListener('up')}></div>`,
             container);
-        const div = container.firstChild as HTMLElement;
+        const div = container.firstElementChild as HTMLElement;
 
         let event = createEvent('keydown', {key: 'enter'});
         div.dispatchEvent(event);
@@ -243,7 +243,7 @@ suite('lit-html-brackets', () => {
             html
             `<div (keydown.enter)=${createListener('enter')} (keydown.shift.enter)=${createListener('shift.enter')}></div>`,
             container);
-            const div = container.firstChild as HTMLElement;
+            const div = container.firstElementChild as HTMLElement;
 
             let event = createEvent('keydown', {key: 'enter'});
             div.dispatchEvent(event);
@@ -276,7 +276,7 @@ suite('lit-html-brackets', () => {
           html
           `<div (keydown.enter)=${createListener('enter')} (keydown.noshift.enter)=${createListener('noshift.enter')}></div>`,
           container);
-          const div = container.firstChild as HTMLElement;
+          const div = container.firstElementChild as HTMLElement;
 
           capturedEvents = {};
 
@@ -308,7 +308,7 @@ suite('lit-html-brackets', () => {
           }
         };
         render(html`<div (keydown.enter)=${listener}></div>`, container);
-        const div = container.firstChild as HTMLElement;
+        const div = container.firstElementChild as HTMLElement;
         div.dispatchEvent(createEvent('keydown', {key: 'enter'}));
         assert.equal(thisValue, listener);
         assert.instanceOf(event, KeyboardEvent);
@@ -322,7 +322,7 @@ suite('lit-html-brackets', () => {
         render(html`<div (keydown.enter)=${listener}></div>`, container);
         render(html`<div (keydown.enter)=${listener}></div>`, container);
 
-        const div = container.firstChild as HTMLElement;
+        const div = container.firstElementChild as HTMLElement;
         div.dispatchEvent(createEvent('keydown', {key: 'enter'}));
         assert.equal(count, 1);
       });
@@ -339,7 +339,7 @@ suite('lit-html-brackets', () => {
         render(html`<div (keydown.enter)=${listener1}></div>`, container);
         render(html`<div (keydown.enter)=${listener2}></div>`, container);
 
-        const div = container.firstChild as HTMLElement;
+        const div = container.firstElementChild as HTMLElement;
         div.dispatchEvent(createEvent('keydown', {key: 'enter'}));
         assert.equal(count1, 0);
         assert.equal(count2, 1);
@@ -350,14 +350,14 @@ suite('lit-html-brackets', () => {
         let listener: any = (e: any) => target = e.target;
         const t = () => html`<div (keydown.enter)=${listener}></div>`;
         render(t(), container);
-        const div = container.firstChild as HTMLElement;
+        const div = container.firstElementChild as HTMLElement;
         div.dispatchEvent(createEvent('keydown', {key: 'enter'}));
         assert.equal(target, div);
 
         listener = null;
         target = undefined;
         render(t(), container);
-        assert.equal(container.firstChild, div);
+        assert.equal(container.firstElementChild, div);
         div.dispatchEvent(createEvent('keydown', {key: 'enter'}));
         assert.equal(target, undefined);
       });
