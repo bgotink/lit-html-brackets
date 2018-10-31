@@ -1,3 +1,4 @@
+import {RenderOptions} from '../../lit-html/lib/render-options.js';
 import {EventPart as LitEventPart, Part} from '../../lit-html/lit-html.js';
 
 import {isBinding} from './binding.js';
@@ -7,7 +8,7 @@ export class EventPart extends LitEventPart {
     if (isBinding(this.value)) {
       this.value.set((event as CustomEvent).detail);
     } else if (typeof this.value === 'function') {
-      this.value.call(this.element, event);
+      this.value.call(this.eventContext || this.element, event);
     } else if (typeof this.value.handleEvent === 'function') {
       this.value.handleEvent(event);
     }
@@ -116,8 +117,8 @@ export class FilteredKeyboardEventPart extends EventPart {
   private readonly _modifiers: string[];
   private readonly _negativeModifiers: string[];
 
-  constructor(element: Element, eventName: string, filter: string[]) {
-    super(element, eventName);
+  constructor(element: Element, eventName: string, filter: string[], eventTarget?: EventTarget) {
+    super(element, eventName, eventTarget);
 
     this._eventKey = normalizeKey(filter.pop()!);
     this._modifiers = [];
@@ -163,7 +164,7 @@ export class FilteredKeyboardEventPart extends EventPart {
   }
 }
 
-export function createEventPart(element: Element, eventName: string, strings: string[]): Part {
+export function createEventPart(element: Element, eventName: string, strings: string[], options: RenderOptions): Part {
   // Events can be registered like this:
   //   (click)=${listener}
   // or
@@ -179,8 +180,8 @@ export function createEventPart(element: Element, eventName: string, strings: st
 
   const domEventName = parts.shift();
   if ((parts.length !== 0) && (domEventName === 'keydown' || domEventName === 'keyup')) {
-    return new FilteredKeyboardEventPart(element, domEventName, parts);
+    return new FilteredKeyboardEventPart(element, domEventName, parts, options.eventContext);
   }
 
-  return new EventPart(element, eventName);
+  return new EventPart(element, eventName, options.eventContext);
 }

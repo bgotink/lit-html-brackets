@@ -20,7 +20,7 @@ suite('lit-html-brackets', () => {
       };
 
       render(html`<div [(prop)]=${bind(obj, 'foo')} [(prop2::some-event)]=${bind(obj, 'bar')}></div>`, container);
-      const div = container.firstChild as HTMLElement;
+      const div = container.firstElementChild as HTMLElement;
 
       assert.equal((div as any).prop, 'Lorem');
       assert.equal((div as any).prop2, 'Ipsum');
@@ -33,7 +33,7 @@ suite('lit-html-brackets', () => {
       };
 
       render(html`<div [(prop)]=${bind(obj, 'foo')} [(prop2::some-event)]=${bind(obj, 'bar')}></div>`, container);
-      const div = container.firstChild as HTMLElement;
+      const div = container.firstElementChild as HTMLElement;
 
       (div as any).prop = 'Gaudeamus';
       (div as any).prop2 = 'Igitur';

@@ -15,20 +15,20 @@ suite('lit-html-brackets', () => {
 
     test('sets properties', () => {
       render(html`<div [foo]=${123} [bar]=${456}></div>`, container);
-      const div = container.firstChild!;
+      const div = container.firstElementChild!;
       assert.equal((div as any).foo, 123);
       assert.equal((div as any).bar, 456);
     });
 
     test('sets a property without quotes', () => {
       render(html`<div [foo]=${123}></div>`, container);
-      const div = container.firstChild!;
+      const div = container.firstElementChild!;
       assert.equal((div as any).foo, 123);
     });
 
     test('sets an interpolation to a property', () => {
       render(html`<div [foo]="1${'bar'}2${'baz'}3"></div>`, container);
-      const div = container.firstChild!;
+      const div = container.firstElementChild!;
       assert.equal((div as any).foo, '1bar2baz3');
     });
 
@@ -38,7 +38,7 @@ suite('lit-html-brackets', () => {
       };
 
       render(html`<div [prop]=${bind(obj, 'foo')}></div>`, container);
-      const div = container.firstChild as HTMLElement;
+      const div = container.firstElementChild as HTMLElement;
 
       assert.equal((div as any).prop, true);
     });

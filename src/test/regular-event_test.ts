@@ -21,7 +21,7 @@ suite('lit-html-brackets', () => {
         thisValue = this;
       };
       render(html`<div (click)=${listener}></div>`, container);
-      const div = container.firstChild as HTMLElement;
+      const div = container.firstElementChild as HTMLElement;
       div.click();
       assert.equal(thisValue, div);
       assert.instanceOf(event, MouseEvent);
@@ -37,7 +37,7 @@ suite('lit-html-brackets', () => {
         }
       };
       render(html`<div (click)=${listener}></div>`, container);
-      const div = container.firstChild as HTMLElement;
+      const div = container.firstElementChild as HTMLElement;
       div.click();
       assert.equal(thisValue, listener);
       assert.instanceOf(event, MouseEvent);
@@ -49,7 +49,7 @@ suite('lit-html-brackets', () => {
       };
 
       render(html`<div (custom)=${bind(obj, 'foo')}></div>`, container);
-      const div = container.firstChild as HTMLElement;
+      const div = container.firstElementChild as HTMLElement;
 
       div.dispatchEvent(new CustomEvent('custom', {detail: true}));
 
@@ -64,7 +64,7 @@ suite('lit-html-brackets', () => {
       render(html`<div (click)=${listener}></div>`, container);
       render(html`<div (click)=${listener}></div>`, container);
 
-      const div = container.firstChild as HTMLElement;
+      const div = container.firstElementChild as HTMLElement;
       div.click();
       assert.equal(count, 1);
     });
@@ -81,7 +81,7 @@ suite('lit-html-brackets', () => {
       render(html`<div (click)=${listener1}></div>`, container);
       render(html`<div (click)=${listener2}></div>`, container);
 
-      const div = container.firstChild as HTMLElement;
+      const div = container.firstElementChild as HTMLElement;
       div.click();
       assert.equal(count1, 0);
       assert.equal(count2, 1);
@@ -92,14 +92,14 @@ suite('lit-html-brackets', () => {
       let listener: any = (e: any) => target = e.target;
       const t = () => html`<div (click)=${listener}></div>`;
       render(t(), container);
-      const div = container.firstChild as HTMLElement;
+      const div = container.firstElementChild as HTMLElement;
       div.click();
       assert.equal(target, div);
 
       listener = null;
       target = undefined;
       render(t(), container);
-      assert.equal(container.firstChild, div);
+      assert.equal(container.firstElementChild, div);
       div.click();
       assert.equal(target, undefined);
     });

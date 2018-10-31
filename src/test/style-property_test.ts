@@ -15,7 +15,7 @@ suite('lit-html-brackets', () => {
 
     test('sets incoming values', () => {
       render(html`<div [style.color]=${'blue'} [style.borderRadius]=${'2px'}></div>`, container);
-      const div = container.firstChild as HTMLElement;
+      const div = container.firstElementChild as HTMLElement;
 
       assert.equal(div.style.color, 'blue');
       assert.equal(div.style.borderRadius, '2px');
@@ -23,7 +23,7 @@ suite('lit-html-brackets', () => {
 
     test('removes values when falsey', () => {
       render(html`<div [style.color]=${null} [style.borderRadius]=${false}></div>`, container);
-      const div = container.firstChild as HTMLElement;
+      const div = container.firstElementChild as HTMLElement;
 
       assert.equal(div.style.color, '');
       assert.equal(div.style.borderRadius, '');

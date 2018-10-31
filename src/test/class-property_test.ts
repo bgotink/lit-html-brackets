@@ -15,7 +15,7 @@ suite('lit-html-brackets', () => {
 
     test('sets classes if the value is true', () => {
       render(html`<div [class.foo]=${true} [class.bar]=${'true'}></div>`, container);
-      const div = container.firstChild as Element;
+      const div = container.firstElementChild!;
 
       assert.equal(div.classList.contains('foo'), true);
       assert.equal(div.classList.contains('bar'), true);
@@ -23,7 +23,7 @@ suite('lit-html-brackets', () => {
 
     test('doesn\'t set classes if the value is false', () => {
       render(html`<div [class.foo]=${false} [class.bar]=${'false'}></div>`, container);
-      const div = container.firstChild as Element;
+      const div = container.firstElementChild!;
 
       assert.equal(div.classList.contains('foo'), false);
       assert.equal(div.classList.contains('bar'), false);
@@ -31,7 +31,7 @@ suite('lit-html-brackets', () => {
 
     test('sets classes if the value is truthy', () => {
       render(html`<div [class.foo]=${'truthy string'} [class.bar]=${1}></div>`, container);
-      const div = container.firstChild as Element;
+      const div = container.firstElementChild!;
 
       assert.equal(div.classList.contains('foo'), true);
       assert.equal(div.classList.contains('bar'), true);
@@ -39,7 +39,7 @@ suite('lit-html-brackets', () => {
 
     test('doesn\'t set classes if the value is falsey', () => {
       render(html`<div [class.foo]=${''} [class.bar]=${0}></div>`, container);
-      const div = container.firstChild as Element;
+      const div = container.firstElementChild!;
 
       assert.equal(div.classList.contains('foo'), false);
       assert.equal(div.classList.contains('bar'), false);
